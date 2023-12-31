@@ -7,13 +7,13 @@ const Index = () => {
   return (
     <div className={baseStyles["main-container"]}>
       <div className={baseStyles["content-container"]}>
-        <h1 className={baseStyles["title"]}>MTG Assistant</h1>
+        <h1 className={baseStyles["title"]}>GPT RPG</h1>
         <p className={baseStyles["subtitle"]}>
-          Talk to your own MTG Assistant to help you build your deck, suggest
-          cards, and more!
+          Welcome to the first ever GPT powered RPG! Create your character and
+          start your adventure!
         </p>
         <div className={baseStyles["image-container"]}>
-          <Link href="/assistant">
+          <Link href="/adventureSetup">
             <Image
               src="/mtgCardBack.jpg"
               alt="MTG Card Back"
@@ -25,8 +25,10 @@ const Index = () => {
           </Link>
         </div>
         <p className={baseStyles["description"]}>
-          Leverage the power of Chat GPT in your journey to become the best MTG
-          player in the world!
+          This is a game that uses the latest Assistant API from OpenAI to
+          provide an AI Game Master that will guide you through your adventure.
+          The game is based on the popular tabletop RPG Dungeons and Dragons.
+          The game is currently in development and will be released soon.
         </p>
       </div>
     </div>

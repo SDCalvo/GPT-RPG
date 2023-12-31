@@ -67,17 +67,7 @@ const Chat = () => {
     splitText.forEach((text) => {
       if (!text) return; // Skip empty strings resulting from split
 
-      if (text.startsWith("![") && text.includes("type=card")) {
-        // Image syntax for card
-        const match = text.match(/\!\[(.*?)\]\((.*?)\)/);
-        if (match) {
-          parts.push({
-            type: "image",
-            content: match[1],
-            url: match[2],
-          });
-        }
-      } else if (text.startsWith("**")) {
+      if (text.startsWith("**")) {
         // Bold syntax
         const boldText = text.replace(/^\*\*(.*?)\*\*$/, "$1");
         parts.push({ type: "strong", content: boldText });
@@ -142,12 +132,7 @@ const Chat = () => {
                     content?.text?.value
                   );
                   return (
-                    <AssistantMessage
-                      key={contentIndex}
-                      parts={messageParts}
-                      showCard={showCard}
-                      setShowCard={setShowCard}
-                    />
+                    <AssistantMessage key={contentIndex} parts={messageParts} />
                   );
                 })}
               </div>
