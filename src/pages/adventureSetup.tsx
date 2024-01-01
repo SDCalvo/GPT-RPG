@@ -47,33 +47,13 @@ const AdventureSetup = () => {
       return false;
     }
 
-    setErrorMessage(null); // Clear any existing error messages
-    return true; // Form is valid
+    setErrorMessage(null);
+    return true;
   };
-
-  const handlePlayerNameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setPlayerName(e.target.value);
-  const handlePlayerClassNameChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => setPlayerClass({ ...playerClass, name: e.target.value });
-  const handlePlayerClassDescriptionChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => setPlayerClass({ ...playerClass, description: e.target.value });
-  const handleCampaignNameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setCampaign({ ...campaign, name: e.target.value });
-  const handleCampaignSettingChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => setCampaign({ ...campaign, setting: e.target.value });
-  const handleCampaignDescriptionChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => setCampaign({ ...campaign, description: e.target.value });
-  const handleCampaignAdditionalInfoChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => setCampaign({ ...campaign, additionalInfo: e.target.value });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!validateForm()) return; // If the form is invalid, return early
+    if (!validateForm()) return;
     dispatch({
       type: "UPDATE_PLAYER",
       payload: { ...state.player, name: playerName, class: playerClass },
@@ -97,7 +77,10 @@ const AdventureSetup = () => {
             type="text"
             id="playerName"
             value={playerName}
-            onChange={handlePlayerNameChange}
+            onChange={(e) => {
+              setPlayerName(e.target.value);
+              clearErrorMessage();
+            }}
           />
         </div>
 
@@ -178,9 +161,13 @@ const AdventureSetup = () => {
 
         <button type="submit">Start Adventure</button>
       </form>
-      {errorMessage && (
-        <div className={styles.errorMessage}>{errorMessage}</div>
-      )}
+
+      <div
+        className={styles.errorMessage}
+        style={{ opacity: errorMessage ? 1 : 0 }}
+      >
+        {errorMessage}
+      </div>
     </div>
   );
 };

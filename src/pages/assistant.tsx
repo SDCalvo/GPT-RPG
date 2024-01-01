@@ -37,7 +37,7 @@ const Assistant = () => {
     if (state.assistantId && !state.threadId) {
       createNewThread();
     }
-  }, [state.assistantId, state.threadId]);
+  }, [state.assistantId, state.threadId, state.messages, dispatch]);
 
   const fetchConfigAndSetAssistant = async () => {
     try {

@@ -3,6 +3,7 @@ import { useAssistant } from "@/contexts/AssistantContext";
 import { addMessageToThread, cancelRun } from "@/requests/assistantsRequests";
 import styles from "../styles/chat.module.css";
 import AssistantMessage, { IMessagePart } from "./AssistantMessage";
+import useInitializeAssistant from "@/hooks/useInitializeAssistant";
 
 export interface IShowCard {
   showCard: boolean;
@@ -19,6 +20,7 @@ const Chat = () => {
     showCard: false,
     cardUrl: "",
   });
+  const { initializeAssistant } = useInitializeAssistant();
 
   const sendMessage = async () => {
     if (state.threadId && newMessage.trim()) {
@@ -103,6 +105,17 @@ const Chat = () => {
       cancelRun();
     };
   }, []);
+
+  React.useEffect(() => {
+    if (!state.assistantInitialized && state.threadId && state.assistantId) {
+      initializeAssistant();
+    }
+  }, [
+    state.assistantInitialized,
+    initializeAssistant,
+    state.threadId,
+    state.assistantId,
+  ]);
 
   return (
     <div className={styles.outerContainer}>

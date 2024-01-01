@@ -34,10 +34,18 @@ export interface ICampaign {
   additionalInfo: string;
 }
 
+export interface IEnemy {
+  name: string;
+  stats: {
+    [key: string]: number;
+  };
+  abilities: string[];
+}
 // Define the state structure
 export type IState = {
   player: IPlayer;
   party: ICompanion[];
+  currentEnemies: IEnemy[];
   campaign: ICampaign;
   isLoading: boolean;
   error: string | null;
@@ -63,6 +71,7 @@ const initialState: IState = {
     inventory: [],
   },
   party: [],
+  currentEnemies: [],
   campaign: {
     name: "",
     setting: "",
@@ -73,10 +82,60 @@ const initialState: IState = {
   error: null,
 };
 
+export interface IGMResponse {
+  responseType: "narration" | "action" | "update" | "error";
+  message: string;
+  data: {
+    playerUpdate: null | { type: "UPDATE_PLAYER"; payload: IPlayer };
+    partyUpdate: null | { type: "UPDATE_PARTY"; payload: ICompanion[] };
+    enemiesUpdate: null | { type: "UPDATE_CURRENT_ENEMIES"; payload: IEnemy[] };
+    campaignUpdate: null | { type: "UPDATE_CAMPAIGN"; payload: ICampaign };
+    isLoading: false;
+    error: null | string;
+  };
+}
+
+/*
+EXAMPLE GM RESPONSE
+{
+  "responseType": "narration",
+  "message": "The ancient door creaks open to reveal a treasure-laden room. You gain experience for your clever lock-picking.",
+  "data": {
+    "playerUpdate": {
+      "type": "UPDATE_PLAYER",
+      "payload": {
+        "name": "Calix",
+        "class": {
+          "name": "Rogue",
+          "description": "A stealthy character with dexterous abilities."
+        },
+        "stats": {
+          "strength": 10,
+          "dexterity": 15,
+          "constitution": 12,
+          "intelligence": 14,
+          "wisdom": 13,
+          "charisma": 11
+        },
+        "level": 2,
+        "experience": 250,
+        "inventory": ["Thieves' tools", "Dagger", "Gold coins"]
+      }
+    },
+    "partyUpdate": null,
+    "enemiesUpdate": null,
+    "campaignUpdate": null,
+    "isLoading": false,
+    "error": null
+  }
+}
+*/
+
 // Define action types
 type Action =
   | { type: "UPDATE_PLAYER"; payload: IPlayer }
   | { type: "UPDATE_PARTY"; payload: ICompanion[] }
+  | { type: "UPDATE_CURRENT_ENEMIES"; payload: IEnemy[] }
   | { type: "UPDATE_CAMPAIGN"; payload: ICampaign }
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_ERROR"; payload: string | null };
@@ -97,6 +156,8 @@ const reducer = (state: IState, action: Action): IState => {
       return { ...state, player: action.payload };
     case "UPDATE_PARTY":
       return { ...state, party: action.payload };
+    case "UPDATE_CURRENT_ENEMIES":
+      return { ...state, currentEnemies: action.payload };
     case "UPDATE_CAMPAIGN":
       return { ...state, campaign: action.payload };
     case "SET_LOADING":

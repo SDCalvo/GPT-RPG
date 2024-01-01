@@ -38,6 +38,7 @@ export type IState = {
   runId: string | null;
   run: Run | null;
   loadingMessage: boolean;
+  assistantInitialized: boolean;
 };
 
 const initialState: IState = {
@@ -51,6 +52,7 @@ const initialState: IState = {
   runId: null,
   run: null,
   loadingMessage: false,
+  assistantInitialized: false,
 };
 
 // Define action types
@@ -66,7 +68,8 @@ type Action =
   | { type: "SET_THREAD"; payload: Thread }
   | { type: "SET_RUN_ID"; payload: string }
   | { type: "SET_RUN"; payload: Run }
-  | { type: "SET_LOADING_MESSAGE"; payload: boolean };
+  | { type: "SET_LOADING_MESSAGE"; payload: boolean }
+  | { type: "SET_ASSISTANT_INITIALIZED"; payload: boolean };
 
 // Create the context
 const AssistantContext = createContext<{
@@ -104,6 +107,8 @@ const reducer = (state: IState, action: Action): IState => {
       return { ...state, run: action.payload };
     case "SET_LOADING_MESSAGE":
       return { ...state, loadingMessage: action.payload };
+    case "SET_ASSISTANT_INITIALIZED":
+      return { ...state, assistantInitialized: action.payload };
     default:
       return state;
   }
