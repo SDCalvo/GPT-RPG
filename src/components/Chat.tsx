@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAssistant } from "@/contexts/AssistantContext";
 import { addMessageToThread, cancelRun } from "@/requests/assistantsRequests";
 import styles from "../styles/chat.module.css";
-import AssistantMessage, { IMessagePart } from "./AssistantMessage";
+import AssistantMessage from "./AssistantMessage";
 import useInitializeAssistant from "@/hooks/useInitializeAssistant";
 
 export interface IShowCard {
@@ -141,11 +141,11 @@ const Chat = () => {
                 }
               >
                 {message?.content?.map((content, contentIndex) => {
-                  const messageParts = parseMarkdownToParts(
-                    content?.text?.value
-                  );
                   return (
-                    <AssistantMessage key={contentIndex} parts={messageParts} />
+                    <AssistantMessage
+                      key={contentIndex}
+                      message={content?.text?.value}
+                    />
                   );
                 })}
               </div>
