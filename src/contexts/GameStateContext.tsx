@@ -5,6 +5,16 @@ export interface IClass {
   description: string;
 }
 
+export interface IAbility {
+  name: string;
+  description: string;
+}
+
+export interface IItem {
+  name: string;
+  description: string;
+}
+
 export interface IPlayer {
   name: string;
   class: IClass;
@@ -13,7 +23,7 @@ export interface IPlayer {
   };
   level: number;
   experience: number;
-  inventory: string[];
+  inventory: IItem[];
 }
 
 export interface ICompanion {
@@ -24,7 +34,7 @@ export interface ICompanion {
   };
   level: number;
   experience: number;
-  inventory: string[];
+  inventory: IItem[];
 }
 
 export interface ICampaign {
@@ -39,7 +49,7 @@ export interface IEnemy {
   stats: {
     [key: string]: number;
   };
-  abilities: string[];
+  abilities: IAbility[];
 }
 // Define the state structure
 export type IState = {

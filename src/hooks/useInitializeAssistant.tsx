@@ -7,10 +7,13 @@ import {
   createThread,
 } from "@/requests/assistantsRequests";
 import { IState } from "@/contexts/GameStateContext";
+import { parseResponseToJSON } from "@/helpers/parseResponseToJSON";
+import useParseAssistantResponse from "./useParseAssistantResponse";
 
 const useInitializeAssistant = () => {
   const { state, dispatch } = useAssistant();
-  const { state: gameState } = useGameState();
+  const { state: gameState, dispatch: gameDispatch } = useGameState();
+  const { parseAssistantResponse } = useParseAssistantResponse();
 
   // A function to construct the initial prompt based on the game state
   const constructInitialPrompt = (gameState: IState): string => {
@@ -44,6 +47,7 @@ const useInitializeAssistant = () => {
           threadID: state.threadId,
           content: initialPrompt,
         });
+        parseAssistantResponse(response.messages[0].content[0].text.value);
         dispatch({ type: "ADD_MESSAGES", payload: response.messages });
         dispatch({ type: "SET_ASSISTANT_INITIALIZED", payload: true });
       } catch (error) {

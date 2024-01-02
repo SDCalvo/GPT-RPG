@@ -7,7 +7,7 @@ import {
   getConfig,
 } from "@/requests/assistantsRequests";
 import Chat from "@/components/Chat";
-import Steps from "@/components/Steps";
+import Ui from "@/components/Ui";
 import baseStyles from "@/styles/assistant.module.css";
 
 const Assistant = () => {
@@ -87,7 +87,7 @@ const Assistant = () => {
       {!state.isLoading && !state.error && (
         <div className={baseStyles["main-container"]}>
           <Chat />
-          <Steps />
+          <Ui />
         </div>
       )}
     </div>

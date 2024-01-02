@@ -1,0 +1,129 @@
+.uiContainer {
+    font-family: 'Arial', sans-serif;
+    color: #fff; /* Light text on dark background */
+    background-color: #1e1e1e; /* Dark background for contrast */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    height: auto; /* Adjust height to content */
+    max-height: 90%;
+    width: 50%;
+    margin-right: 3rem;
+    overflow-y: auto;
+
+    .text {
+        margin-bottom: 0.5rem;
+    }
+  }
+  
+  .uiContainer::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for webkit browsers */
+  }
+
+  .uiContainer {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .title {
+    margin-bottom: 20px;
+    color: #49a6e9; /* A light blue for headings to stand out */
+    font-size: 2em;
+    text-align: center;
+  }
+
+  .section {
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.05); /* Slight section differentiation */
+    padding: 15px;
+    border-radius: 4px;
+  }
+  
+  .heading {
+    margin-bottom: 10px;
+    color: #49a6e9; /* A light blue for headings to stand out */
+    font-size: 1.5em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
+    padding-bottom: 5px;
+    text-align: center;
+  }
+  
+  .subheading {
+    margin-top: 10px;
+    color: #49a6e9; /* Same color for subheadings for consistency */
+    font-size: 1.2em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+  }
+  
+  .statsList, .partyList, .enemiesList {
+    list-style: none;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.05); /* Adding a background to list for contrast */
+    border-radius: 4px;
+    padding: 10px;
+  }
+  
+  .statsList li, .partyList li, .enemiesList li {
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.1); /* Distinct items for clarity */
+    border-radius: 4px;
+  }
+
+  .enemiesList > li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Separate enemies visually */
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+
+  .abilitiesList {
+    list-style: none;
+    padding-left: 20px; /* Indent abilities for better visual hierarchy */
+  }
+  
+  .abilitiesList li {
+    background-color: transparent; /* Abilities don't need separate background */
+    padding: 5px 0; /* Padding for spacing */
+  }
+  
+  .loading, .error {
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
+  
+  .loading {
+    background-color: #007bff;
+  }
+  
+  .error {
+    background-color: #dc3545;
+  }
+  
+  .inventoryList {
+    list-style: none;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.05); /* Consistent with other lists */
+    border-radius: 4px;
+    padding: 10px;
+    max-height: 150px; /* Set a max-height for long inventories */
+    overflow-y: auto; /* Make just the inventory list scrollable */
+  }
+  
+  .inventoryList li {
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.1); /* Distinct items for clarity */
+    border-radius: 4px;
+  }
+  
+  .inventoryList::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for inventory lists on webkit browsers */
+  }
+  
+  .inventoryList {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }

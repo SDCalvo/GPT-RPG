@@ -10,12 +10,14 @@ import AssistantMessage from "./AssistantMessage";
 import useInitializeAssistant from "@/hooks/useInitializeAssistant";
 import { IGMResponse, useGameState } from "@/contexts/GameStateContext";
 import { parseResponseToJSON } from "@/helpers/parseResponseToJSON";
+import useParseAssistantResponse from "@/hooks/useParseAssistantResponse";
 
 const Chat = () => {
   const { state, dispatch } = useAssistant();
   const { state: gameState, dispatch: gameDispatch } = useGameState();
   const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { parseAssistantResponse } = useParseAssistantResponse();
   // Add a new state to track the index of the last user message
   const [lastUserMessageIndex, setLastUserMessageIndex] = useState(-1);
 
@@ -63,56 +65,6 @@ const Chat = () => {
     }
   };
 
-  const parseAssistantResponse = (message: any) => {
-    try {
-      const parsedMessage = parseResponseToJSON(message);
-      const { responseType, data, message: responseMessage } = parsedMessage;
-      console.log("responseType", responseType);
-      console.log("data", data);
-      console.log("message", responseMessage);
-      // Handle different response types if necessary
-      switch (responseType) {
-        case "narration":
-        case "action":
-        case "update":
-          // Dispatch updates based on the data object
-          if (data.playerUpdate) {
-            console.log("update player");
-            gameDispatch(data.playerUpdate);
-          }
-          if (data.partyUpdate) {
-            console.log("update party");
-            gameDispatch(data.partyUpdate);
-          }
-          if (data.enemiesUpdate) {
-            console.log("update enemies");
-            gameDispatch(data.enemiesUpdate);
-          }
-          if (data.campaignUpdate) {
-            console.log("update campaign");
-            gameDispatch(data.campaignUpdate);
-          }
-          break;
-        case "error":
-          // Handle errors specifically
-          console.error("Assistant Error:", responseMessage);
-          gameDispatch({ type: "SET_ERROR", payload: responseMessage });
-          break;
-        default:
-          console.warn("Unhandled responseType:", responseType);
-      }
-      if (data.error) {
-        gameDispatch({ type: "SET_ERROR", payload: data.error });
-      }
-    } catch (error) {
-      console.error("Failed to parse assistant response:", error);
-      gameDispatch({
-        type: "SET_ERROR",
-        payload: "Failed to parse assistant response",
-      });
-    }
-  };
-
   const tryToCancelRun = async () => {
     try {
       if (!state.threadId || !state.runId) return;
@@ -145,16 +97,27 @@ const Chat = () => {
     state.assistantId,
   ]);
 
-  React.useEffect(() => {
-    console.log("gameState", gameState);
-  }, [gameState]);
+  // React.useEffect(() => {
+  //   console.log("gameState", gameState);
+  // }, [gameState]);
 
-  React.useEffect(() => {
-    console.log("state", state);
-  }, [state]);
+  // React.useEffect(() => {
+  //   console.log("state", state);
+  // }, [state]);
+
+  if (!state.assistantInitialized) {
+    return (
+      <div className={styles.outerContainer}>
+        <div className={styles.bigSpinner}></div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.outerContainer}>
+      <div className={styles.header}>
+        <h1 className={styles.headerTitle}>{gameState.campaign.name}</h1>
+      </div>
       <div className={styles.chatContainer}>
         <div className={styles.messagesContainer}>
           {state.loadingMessage && <div className={styles.spinner}></div>}
