@@ -1,37 +1,44 @@
 import React, { useState } from "react";
 import { useAssistant } from "@/contexts/AssistantContext";
-import { addMessageToThread, cancelRun } from "@/requests/assistantsRequests";
+import {
+  ICancelRun,
+  addMessageToThread,
+  cancelRun,
+} from "@/requests/assistantsRequests";
 import styles from "../styles/chat.module.css";
 import AssistantMessage from "./AssistantMessage";
 import useInitializeAssistant from "@/hooks/useInitializeAssistant";
-
-export interface IShowCard {
-  showCard: boolean;
-  cardUrl: string;
-}
+import { IGMResponse, useGameState } from "@/contexts/GameStateContext";
+import { parseResponseToJSON } from "@/helpers/parseResponseToJSON";
 
 const Chat = () => {
   const { state, dispatch } = useAssistant();
+  const { state: gameState, dispatch: gameDispatch } = useGameState();
   const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   // Add a new state to track the index of the last user message
   const [lastUserMessageIndex, setLastUserMessageIndex] = useState(-1);
-  const [showCard, setShowCard] = useState<IShowCard>({
-    showCard: false,
-    cardUrl: "",
-  });
+
   const { initializeAssistant } = useInitializeAssistant();
 
   const sendMessage = async () => {
     if (state.threadId && newMessage.trim()) {
       dispatch({ type: "SET_LOADING_MESSAGE", payload: true });
       try {
+        // We need to send the entire game state with each message
+        const messageWithState = `
+          ${newMessage}
+
+          Game state so far:
+          ${JSON.stringify(gameState)}
+        `;
         // Send the new message to the thread
         const finalResult = await addMessageToThread({
           threadID: state.threadId,
-          content: newMessage,
+          content: messageWithState,
         });
-
+        // Parse the assistant response
+        parseAssistantResponse(finalResult.messages[0].content[0].text.value);
         // Dispatch an action to update messages with the latest including the assistant's response
         dispatch({ type: "ADD_MESSAGES", payload: finalResult.messages });
         // Set the index of the last user message
@@ -56,44 +63,65 @@ const Chat = () => {
     }
   };
 
-  function parseMarkdownToParts(markdownText: string | undefined) {
-    const parts: IMessagePart[] = [];
-    if (!markdownText) return parts;
-
-    // Replace single dash with a special placeholder that won't be affected by other regex
-    const updatedText = markdownText.replace(/(^|\s)-(\s|$)/g, "$1<br/>$2");
-
-    // Split the text by markdown link and image syntax
-    const splitText = updatedText.split(/(\!\[.*?\]\(.*?\))|(\*\*.*?\*\*)/g);
-
-    splitText.forEach((text) => {
-      if (!text) return; // Skip empty strings resulting from split
-
-      if (text.startsWith("**")) {
-        // Bold syntax
-        const boldText = text.replace(/^\*\*(.*?)\*\*$/, "$1");
-        parts.push({ type: "strong", content: boldText });
-      } else {
-        // Check for line breaks (br tags)
-        const textParts = text.split("<br/>");
-        textParts.forEach((part, index) => {
-          if (part) {
-            parts.push({ type: "text", content: part });
-          }
-          // Add line breaks except for the last part
-          if (index < textParts.length - 1) {
-            parts.push({ type: "linebreak", content: "" });
-          }
-        });
-      }
-    });
-
-    return parts;
-  }
-
-  const cancelRun = async () => {
+  const parseAssistantResponse = (message: any) => {
     try {
-      await cancelRun();
+      const parsedMessage = parseResponseToJSON(message);
+      const { responseType, data, message: responseMessage } = parsedMessage;
+      console.log("responseType", responseType);
+      console.log("data", data);
+      console.log("message", responseMessage);
+      // Handle different response types if necessary
+      switch (responseType) {
+        case "narration":
+        case "action":
+        case "update":
+          // Dispatch updates based on the data object
+          if (data.playerUpdate) {
+            console.log("update player");
+            gameDispatch(data.playerUpdate);
+          }
+          if (data.partyUpdate) {
+            console.log("update party");
+            gameDispatch(data.partyUpdate);
+          }
+          if (data.enemiesUpdate) {
+            console.log("update enemies");
+            gameDispatch(data.enemiesUpdate);
+          }
+          if (data.campaignUpdate) {
+            console.log("update campaign");
+            gameDispatch(data.campaignUpdate);
+          }
+          break;
+        case "error":
+          // Handle errors specifically
+          console.error("Assistant Error:", responseMessage);
+          gameDispatch({ type: "SET_ERROR", payload: responseMessage });
+          break;
+        default:
+          console.warn("Unhandled responseType:", responseType);
+      }
+      if (data.error) {
+        gameDispatch({ type: "SET_ERROR", payload: data.error });
+      }
+    } catch (error) {
+      console.error("Failed to parse assistant response:", error);
+      gameDispatch({
+        type: "SET_ERROR",
+        payload: "Failed to parse assistant response",
+      });
+    }
+  };
+
+  const tryToCancelRun = async () => {
+    try {
+      if (!state.threadId || !state.runId) return;
+      const arg: ICancelRun = {
+        threadId: state.threadId,
+        runId: state.runId,
+      };
+
+      await cancelRun(arg);
     } catch (error) {
       console.error("Failed to cancel run:", error);
     }
@@ -102,7 +130,7 @@ const Chat = () => {
   // Cancel run if unmount component
   React.useEffect(() => {
     return () => {
-      cancelRun();
+      tryToCancelRun();
     };
   }, []);
 
@@ -117,12 +145,20 @@ const Chat = () => {
     state.assistantId,
   ]);
 
+  React.useEffect(() => {
+    console.log("gameState", gameState);
+  }, [gameState]);
+
+  React.useEffect(() => {
+    console.log("state", state);
+  }, [state]);
+
   return (
     <div className={styles.outerContainer}>
       <div className={styles.chatContainer}>
         <div className={styles.messagesContainer}>
           {state.loadingMessage && <div className={styles.spinner}></div>}
-          {state?.messages?.map((message, index) => (
+          {state?.messages?.slice(0, -1).map((message, index) => (
             <div
               key={index}
               className={`${styles.message} ${
@@ -145,6 +181,7 @@ const Chat = () => {
                     <AssistantMessage
                       key={contentIndex}
                       message={content?.text?.value}
+                      role={message.role}
                     />
                   );
                 })}
@@ -169,17 +206,9 @@ const Chat = () => {
           >
             Send
           </button>
-          <button onClick={cancelRun} className={styles.sendMessageButton}>
+          <button onClick={tryToCancelRun} className={styles.sendMessageButton}>
             Cancel
           </button>
-        </div>
-
-        <div
-          className={`${styles["card-tooltip-image"]} ${
-            showCard.showCard ? styles["show"] : ""
-          }`}
-        >
-          <img src={showCard.cardUrl} alt="card" />
         </div>
       </div>
     </div>

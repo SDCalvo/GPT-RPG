@@ -132,7 +132,7 @@ export const getConfig = async (): Promise<IConfig> => {
 };
 
 // Cancel run
-interface ICancelRun {
+export interface ICancelRun {
   threadId: string;
   runId: string;
 }
