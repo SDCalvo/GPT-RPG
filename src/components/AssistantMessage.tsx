@@ -1,6 +1,4 @@
-import { IGMResponse } from "@/contexts/GameStateContext";
 import { parseResponseToJSON } from "@/helpers/parseResponseToJSON";
-import { parse } from "path";
 
 interface AssistantMessageProps {
   message: string | undefined;

@@ -46,6 +46,7 @@
     max-width: 500px;
     width: 100%;
     box-sizing: border-box;
+    margin-top: 3rem;
   }
   
   .adventureSetupForm h2 {
@@ -89,6 +90,51 @@
   
   .adventureSetupForm button:hover {
     background-color: #379683; /* Slightly darker green on hover */
+  }
+
+  .statRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .statLabel {
+    flex-basis: 30%;
+    text-align: left;
+  }
+  
+  .statControl {
+    flex-basis: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .statButton {
+    background-color: #5CDB95; /* Soft green color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 5px;
+  }
+  
+  .statValue {
+    padding: 10px;
+    text-align: center;
+    flex-grow: 1;
+    background-color: #e6e6e6; /* Light grey background for the stat value */
+    border-radius: 4px;
+    margin: 0 5px;
+  }
+
+  @media (min-width: 768px) {
+    .adventureSetupForm {
+      max-width: 700px; /* Adjust the width as necessary */
+    }
   }
   
   /* Responsive styles */

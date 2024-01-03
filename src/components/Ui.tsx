@@ -7,11 +7,13 @@ const Ui = () => {
 
   const renderInventory = (inventory: IItem[]) => (
     <ul className={styles.inventoryList}>
-      {inventory.map((item, index) => (
-        <li key={index}>
-          <strong>{item.name}:</strong> {item.description}
-        </li>
-      ))}
+      <p className={styles.text}>Inventory</p>
+      {inventory.length > 0 &&
+        inventory.map((item, index) => (
+          <li key={index}>
+            <strong>{item.name}:</strong> {item.description}
+          </li>
+        ))}
     </ul>
   );
 
@@ -31,6 +33,13 @@ const Ui = () => {
         </p>
         <p className={styles.text}>
           <strong>Experience:</strong> {state.player.experience}
+        </p>
+        <p className={styles.text}>
+          <strong>Health:</strong> {state.player.health}/
+          {state.player.maxHealth}
+        </p>
+        <p className={styles.text}>
+          <strong>Mana:</strong> {state.player.mana}/{state.player.maxMana}
         </p>
         {renderInventory(state.player.inventory)}
         <div>
@@ -52,6 +61,12 @@ const Ui = () => {
             {state.party.map((member, index) => (
               <li key={index}>
                 <h3>{member.name}</h3>
+                <p className={styles.text}>
+                  <strong>Health:</strong> {member.health}/{member.maxHealth}
+                </p>
+                <p className={styles.text}>
+                  <strong>Mana:</strong> {member.mana}/{member.maxMana}
+                </p>
                 {renderInventory(member.inventory)}
               </li>
             ))}
@@ -68,6 +83,12 @@ const Ui = () => {
             {state.currentEnemies.map((enemy, index) => (
               <li key={index}>
                 <h3>{enemy.name}</h3>
+                <p className={styles.text}>
+                  <strong>Health:</strong> {enemy.health}/{enemy.maxHealth}
+                </p>
+                <p className={styles.text}>
+                  <strong>Mana:</strong> {enemy.mana}/{enemy.maxMana}
+                </p>
                 <ul className={styles.statsList}>
                   {Object.entries(enemy.stats).map(([stat, value]) => (
                     <li key={stat}>

@@ -175,18 +175,6 @@
     margin-right: auto;
     margin-bottom: 20px;
   }
-
-  .bigSpinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-    border-top: 4px solid #3498db;
-    width: 150px;
-    height: 150px;
-    animation: spin 2s linear infinite;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 20px;
-  }
   
   @keyframes spin {
     0% { transform: rotate(0deg); }

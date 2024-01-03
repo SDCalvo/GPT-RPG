@@ -7,9 +7,7 @@ import {
 } from "@/requests/assistantsRequests";
 import styles from "../styles/chat.module.css";
 import AssistantMessage from "./AssistantMessage";
-import useInitializeAssistant from "@/hooks/useInitializeAssistant";
-import { IGMResponse, useGameState } from "@/contexts/GameStateContext";
-import { parseResponseToJSON } from "@/helpers/parseResponseToJSON";
+import { useGameState } from "@/contexts/GameStateContext";
 import useParseAssistantResponse from "@/hooks/useParseAssistantResponse";
 
 const Chat = () => {
@@ -20,8 +18,6 @@ const Chat = () => {
   const { parseAssistantResponse } = useParseAssistantResponse();
   // Add a new state to track the index of the last user message
   const [lastUserMessageIndex, setLastUserMessageIndex] = useState(-1);
-
-  const { initializeAssistant } = useInitializeAssistant();
 
   const sendMessage = async () => {
     if (state.threadId && newMessage.trim()) {
@@ -86,17 +82,6 @@ const Chat = () => {
     };
   }, []);
 
-  React.useEffect(() => {
-    if (!state.assistantInitialized && state.threadId && state.assistantId) {
-      initializeAssistant();
-    }
-  }, [
-    state.assistantInitialized,
-    initializeAssistant,
-    state.threadId,
-    state.assistantId,
-  ]);
-
   // React.useEffect(() => {
   //   console.log("gameState", gameState);
   // }, [gameState]);
@@ -104,14 +89,6 @@ const Chat = () => {
   // React.useEffect(() => {
   //   console.log("state", state);
   // }, [state]);
-
-  if (!state.assistantInitialized) {
-    return (
-      <div className={styles.outerContainer}>
-        <div className={styles.bigSpinner}></div>
-      </div>
-    );
-  }
 
   return (
     <div className={styles.outerContainer}>

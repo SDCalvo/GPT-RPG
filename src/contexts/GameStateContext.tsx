@@ -1,3 +1,4 @@
+import { Action, reducer } from "@/helpers/gameStateReducer";
 import React, { createContext, useReducer, useContext } from "react";
 
 export interface IClass {
@@ -17,6 +18,10 @@ export interface IItem {
 
 export interface IPlayer {
   name: string;
+  health: number;
+  maxHealth: number;
+  mana: number;
+  maxMana: number;
   class: IClass;
   stats: {
     [key: string]: number;
@@ -29,6 +34,10 @@ export interface IPlayer {
 export interface ICompanion {
   name: string;
   class: string;
+  health: number;
+  maxHealth: number;
+  mana: number;
+  maxMana: number;
   stats: {
     [key: string]: number;
   };
@@ -46,6 +55,10 @@ export interface ICampaign {
 
 export interface IEnemy {
   name: string;
+  health: number;
+  maxHealth: number;
+  mana: number;
+  maxMana: number;
   stats: {
     [key: string]: number;
   };
@@ -68,6 +81,10 @@ const initialState: IState = {
       name: "",
       description: "",
     },
+    health: 10,
+    maxHealth: 10,
+    mana: 0,
+    maxMana: 0,
     stats: {
       strength: 10,
       dexterity: 10,
@@ -91,19 +108,6 @@ const initialState: IState = {
   isLoading: false,
   error: null,
 };
-
-export interface IGMResponse {
-  responseType: "narration" | "action" | "update" | "error";
-  message: string;
-  data: {
-    playerUpdate: null | { type: "UPDATE_PLAYER"; payload: IPlayer };
-    partyUpdate: null | { type: "UPDATE_PARTY"; payload: ICompanion[] };
-    enemiesUpdate: null | { type: "UPDATE_CURRENT_ENEMIES"; payload: IEnemy[] };
-    campaignUpdate: null | { type: "UPDATE_CAMPAIGN"; payload: ICampaign };
-    isLoading: false;
-    error: null | string;
-  };
-}
 
 /*
 EXAMPLE GM RESPONSE
@@ -141,15 +145,6 @@ EXAMPLE GM RESPONSE
 }
 */
 
-// Define action types
-type Action =
-  | { type: "UPDATE_PLAYER"; payload: IPlayer }
-  | { type: "UPDATE_PARTY"; payload: ICompanion[] }
-  | { type: "UPDATE_CURRENT_ENEMIES"; payload: IEnemy[] }
-  | { type: "UPDATE_CAMPAIGN"; payload: ICampaign }
-  | { type: "SET_LOADING"; payload: boolean }
-  | { type: "SET_ERROR"; payload: string | null };
-
 // Create the context
 const GameStateContext = createContext<{
   state: IState;
@@ -158,26 +153,6 @@ const GameStateContext = createContext<{
   state: initialState,
   dispatch: () => null,
 });
-
-// Reducer function
-const reducer = (state: IState, action: Action): IState => {
-  switch (action.type) {
-    case "UPDATE_PLAYER":
-      return { ...state, player: action.payload };
-    case "UPDATE_PARTY":
-      return { ...state, party: action.payload };
-    case "UPDATE_CURRENT_ENEMIES":
-      return { ...state, currentEnemies: action.payload };
-    case "UPDATE_CAMPAIGN":
-      return { ...state, campaign: action.payload };
-    case "SET_LOADING":
-      return { ...state, isLoading: action.payload };
-    case "SET_ERROR":
-      return { ...state, error: action.payload };
-    default:
-      return state;
-  }
-};
 
 // Context Provider component
 type GameStateProviderProps = {
