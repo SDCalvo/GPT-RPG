@@ -3,148 +3,161 @@
 .adventureSetupContainer {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  background-image: url('/background3.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.adventureSetupForm {
+  background-color: black;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: calc(100% - 40px);
+  box-sizing: border-box;
+  margin-top: 3rem;
+  overflow: auto;
+  -ms-overflow-style: none; 
+  height: 90%;
+  border: 1px solid #8EE4AF;
+}
+
+.adventureSetupForm::-webkit-scrollbar {
+  display: none;
+}
+
+.adventureSetupForm h2 {
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 32px;
+  color: #ffffff;
+}
+
+.statPointsTitle {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.statPointsTitle h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #e4e4e4;
+}
+
+.statPointsTitle p {
+  font-size: 16px;
+  color: #e4e4e4;
+}
+
+.adventureSetupForm label {
+  color: #e4e4e4;
+  margin-bottom: 5px;
+  display: block;
+  font-weight: bold;
 }
 
 .adventureSetupForm input[type="text"],
-.adventureSetupForm textarea,
-.adventureSetupForm button {
-  font-family: inherit;
-  font-size: inherit;
+.adventureSetupForm textarea {
+  background-color: #EDF5E1; /* Light background for inputs */
+  border: 1px solid #8EE4AF; /* Soft green border */
+  border-radius: 4px;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
+.adventureSetupForm button {
+  background-color: #379683; /* Deep green color */
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
+.adventureSetupForm button:hover {
+  background-color: #5CDB95; /* Soft green on hover */
+}
+
+.statRow {
+  margin-bottom: 15px;
+}
+
+.statLabel {
+  flex-basis: 30%;
+}
+
+.statControl {
+  flex-basis: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.statButton {
+  background-color: #8EE4AF; /* Soft green color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 0 5px;
+}
+
+.statValue {
+  background-color: #EDF5E1; /* Light grey background */
+  border-radius: 4px;
+  padding: 10px;
+  text-align: center;
+  flex-grow: 1;
+  margin: 0 5px;
+}
 
 .errorMessage {
-    margin-top: 10px;
-    background-color: #ffdddd; /* Light red background for error messages */
-    color: #d8000c; /* Dark red text for contrast */
-    padding: 10px;
-    margin-bottom: 15px; /* Same as the form field margin for consistency */
-    border-radius: 4px;
-    border: 1px solid #d8000c; /* Border color matches text */
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s;
-    height: 40px;    
+  background-color: #ffdddd;
+  color: #d8000c;
+  padding: 10px;
+  border: 1px solid #d8000c;
+  border-radius: 4px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  height: 40px;
 }
 
-.adventureSetupContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    height: 100vh;
-    background-color: black; /* Light gray background */
-  }
-  
+@media (min-width: 768px) {
   .adventureSetupForm {
-    background: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 3rem;
+    max-width: 600px;
+  }
+}
+
+@media (max-width: 600px) {
+  .adventureSetupForm {
+    padding: 20px;
+    margin-top: 1rem;
   }
   
   .adventureSetupForm h2 {
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 24px;
-    color: #333; /* Dark gray text for contrast */
+    font-size: 20px;
   }
-  
-  .adventureSetupForm div {
-    margin-bottom: 15px;
-  }
-  
-  .adventureSetupForm label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .adventureSetupForm input[type="text"],
-  .adventureSetupForm textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc; /* Light gray border */
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
-  
-  .adventureSetupForm button {
-    width: 100%;
-    padding: 10px;
-    background-color: #5CDB95; /* Soft green color */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-  }
-  
-  .adventureSetupForm button:hover {
-    background-color: #379683; /* Slightly darker green on hover */
-  }
+}
 
-  .statRow {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .statLabel {
-    flex-basis: 30%;
-    text-align: left;
-  }
-  
-  .statControl {
-    flex-basis: 70%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .statButton {
-    background-color: #5CDB95; /* Soft green color */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 16px;
-    margin: 0 5px;
-  }
-  
-  .statValue {
-    padding: 10px;
-    text-align: center;
-    flex-grow: 1;
-    background-color: #e6e6e6; /* Light grey background for the stat value */
-    border-radius: 4px;
-    margin: 0 5px;
-  }
-
-  @media (min-width: 768px) {
-    .adventureSetupForm {
-      max-width: 700px; /* Adjust the width as necessary */
-    }
-  }
-  
-  /* Responsive styles */
-  @media (max-width: 600px) {
-    .adventureSetupForm {
-      padding: 20px;
-    }
-  
-    .adventureSetupForm h2 {
-      font-size: 20px;
-    }
-  }
-  
+.startButton {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}

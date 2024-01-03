@@ -143,8 +143,10 @@ const AdventureSetup = () => {
           />
         </div>
 
-        <h3>Allocate Stats</h3>
-        <p>Remaining Points: {remainingPoints}</p>
+        <div className={styles.statPointsTitle}>
+          <h3>Allocate Stats</h3>
+          <p>Remaining Points: {remainingPoints}</p>
+        </div>
         {Object.keys(statAllocation).map((stat) => (
           <div key={stat} className={styles.statRow}>
             <label className={styles.statLabel}>
@@ -251,7 +253,9 @@ const AdventureSetup = () => {
           />
         </div>
 
-        <button type="submit">Start Adventure</button>
+        <button className={styles.startButton} type="submit">
+          Start Adventure
+        </button>
       </form>
 
       <div

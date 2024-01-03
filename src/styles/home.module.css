@@ -36,6 +36,9 @@
   margin-bottom: 2rem;
   color: #ffffff;
   animation: fadeIn 1.5s ease-in-out forwards;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
 }
 
 .image-container {
@@ -47,7 +50,9 @@
   font-size: 1.5rem;
   max-width: 600px;
   color: #ffffff;
-  
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
   animation: fadeIn 2.5s ease-in-out forwards;
 }
 

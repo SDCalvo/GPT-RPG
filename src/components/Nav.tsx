@@ -16,14 +16,6 @@ const Nav = () => {
           </li>
         )}
 
-        {router.pathname !== "/assistant" && (
-          <li className={baseStyles.navItem}>
-            <Link href="/assistant" className={baseStyles.navLinkContainer}>
-              <p className={baseStyles.navLink}>Assistant</p>
-            </Link>
-          </li>
-        )}
-
         {router.pathname !== "/about" && (
           <li className={baseStyles.navItem}>
             <Link href="/about">

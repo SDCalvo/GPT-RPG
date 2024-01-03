@@ -15,7 +15,7 @@ const Index = () => {
         <div className={baseStyles["image-container"]}>
           <Link href="/adventureSetup">
             <Image
-              src="/mtgCardBack.jpg"
+              src="/mtgCardBack.png"
               alt="MTG Card Back"
               width={400} // Adjusted size
               height={560} // Adjusted size to maintain aspect ratio
