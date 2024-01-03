@@ -23,7 +23,13 @@ const AssistantMessage: React.FC<AssistantMessageProps> = ({
   };
   if (role === "assistant") {
     const parsedMessage = parseResponseToJSON(message);
-    const { responseType, data, message: responseMessage } = parsedMessage;
+
+    const data = parsedMessage?.data;
+    const responseMessage = parsedMessage?.message;
+    if (!responseMessage) {
+      console.error("Failed to parse assistant response:", parsedMessage);
+      return null;
+    }
     return <div dangerouslySetInnerHTML={{ __html: responseMessage }} />;
   } else {
     return <div>{removeGameStateFromMessage(message)}</div>;

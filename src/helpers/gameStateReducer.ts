@@ -210,11 +210,25 @@ export const reducer = (state: IState, action: Action): IState => {
       };
     }
     case "ADD_COMPANION": {
+      // Add the new companion to the party
+      const updatedParty = [...state.party, action.payload];
+
+      // Remove duplicates, preserving the last occurrence (the newly added companion)
+      const uniqueParty = updatedParty
+        .reduceRight((acc: ICompanion[], companion: ICompanion) => {
+          if (!acc.some((comp) => comp.name === companion.name)) {
+            acc.push(companion);
+          }
+          return acc;
+        }, [])
+        .reverse();
+
       return {
         ...state,
-        party: [...state.party, action.payload],
+        party: uniqueParty,
       };
     }
+
     case "REMOVE_COMPANION": {
       return {
         ...state,

@@ -11,13 +11,11 @@ const useParseAssistantResponse = () => {
 
   const parseAssistantResponse = useCallback(
     (message: string) => {
-      console.log("Received message:", message);
       try {
         const parsedMessage: IGMResponse | null = parseResponseToJSON(message);
 
         if (parsedMessage) {
           const { data } = parsedMessage;
-          console.log("Parsed data:", data);
 
           // Iterate through each property of the data object
           Object.entries(data).forEach(([key, value]) => {

@@ -8,10 +8,10 @@ const Ui = () => {
   const renderInventory = (inventory: IItem[]) => (
     <ul className={styles.inventoryList}>
       <p className={styles.text}>Inventory</p>
-      {inventory.length > 0 &&
+      {inventory?.length > 0 &&
         inventory.map((item, index) => (
           <li key={index}>
-            <strong>{item.name}:</strong> {item.description}
+            <strong>{item?.name}:</strong> {item?.description}
           </li>
         ))}
     </ul>

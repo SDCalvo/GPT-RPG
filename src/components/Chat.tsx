@@ -36,6 +36,10 @@ const Chat = () => {
           content: messageWithState,
         });
         // Parse the assistant response
+        console.log(
+          "response sent to parse",
+          finalResult.messages[0].content[0].text.value
+        );
         parseAssistantResponse(finalResult.messages[0].content[0].text.value);
         // Dispatch an action to update messages with the latest including the assistant's response
         dispatch({ type: "ADD_MESSAGES", payload: finalResult.messages });
