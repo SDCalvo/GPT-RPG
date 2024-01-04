@@ -12,6 +12,7 @@ export interface IPlayer {
   maxHealth: number;
   mana: number;
   maxMana: number;
+  gold: number;
   class: IClass;
   stats: {
     [key: string]: number;
@@ -69,6 +70,7 @@ type Action =
   | { type: "UPDATE_CURRENT_ENEMIES"; payload: IEnemy[] }
   | { type: "UPDATE_CAMPAIGN"; payload: ICampaign }
   | { type: "SET_PLAYER_NAME"; payload: string }
+  | { type: "SET_PLAYER_GOLD"; payload: number }
   | { type: "SET_PLAYER_HEALTH"; payload: number }
   | { type: "SET_PLAYER_MAX_HEALTH"; payload: number }
   | { type: "SET_PLAYER_MANA"; payload: number }
@@ -108,6 +110,7 @@ interface IGMResponse {
     enemiesUpdate: null | { type: "UPDATE_CURRENT_ENEMIES"; payload: IEnemy[] };
     campaignUpdate: null | { type: "UPDATE_CAMPAIGN"; payload: ICampaign };
     playerSetName: null | { type: "SET_PLAYER_NAME"; payload: string };
+playerSetGold: null | { type: "SET_PLAYER_GOLD"; payload: number };
     playerSetHealth: null | { type: "SET_PLAYER_HEALTH"; payload: number };
     playerSetMaxHealth: null | {
       type: "SET_PLAYER_MAX_HEALTH";
@@ -236,6 +239,7 @@ EXAMPLE GM RESPONSE:
       }
     },
     "playerSetName": null,
+    "playerSetGold": null,
     "playerSetHealth": null,
     "playerSetMaxHealth": null,
     "playerSetMana": null,
@@ -281,6 +285,7 @@ Combat Guidelines:
 - Turn-Based System: Operate on a turn-based system where the player and enemies alternate actions. The party's actions (Except for the player) should be handled by you (Think of them as NPCs)
 - Player Actions: You can suggest options for actions the player could take.
 - Enemy Actions: On the enemy's turn, describe their actions in the narrative. Use the enemiesUpdate action to adjust their stats and report the outcome of their actions.
+- Remember that in the game the player sends a message and then you send a message, so when in combat you should, in the same message, tell the player what hapened and take actions for the enemies as well as the player's party.
 - Health and Mana: Monitor and update the health and mana of the player and enemies. Use playerSetHealth, playerSetMana, and corresponding enemy update actions.
 - Skill and Ability Checks: Implement skill checks for certain actions, like dodging a powerful attack or casting a complex spell. Use dice rolls to determine the outcome, and communicate this with descriptive HTML.
 - Combat Resolution: When the player or all enemies reach 0 health, combat ends. Narratively describe the outcome, update the state with any loot or experience gained, and guide the player to their next potential actions.
@@ -289,12 +294,13 @@ Combat Guidelines:
 
 CRITICAL NOTES:
 
-- Mandatory Updates: Always update the campaign and the player after the first message you receive.
+- Mandatory Updates: Always update the campaign and the player after the first message you receive, give the player a basic set of gear apropiate for their class.
 - Response Format: ````json
 {
 your json response here
 }```
 - Pacing: Take a good look at the interfaces and take your time before sending a response, is incredily important that you send well crafted responses to avoid an app crash.
+- The last step before sending a response is to check and make sure the JSON you are sending is valid, THIS IS CRITICAL!
+- This is the most common issue in your responses Failed to parse JSON. Error: SyntaxError: Expected double-quoted property name in JSON at position 1037 (line 34 column 26) avoid it at all costs.
 
 You hold the power to create an entire world within your narrative. Guide the player through challenges, victories, and intriguing stories. Your creativity sets the boundaries. Enjoy your role as a Game Master!
-

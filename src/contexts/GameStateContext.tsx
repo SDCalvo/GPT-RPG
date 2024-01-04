@@ -23,6 +23,7 @@ export interface IPlayer {
   mana: number;
   maxMana: number;
   class: IClass;
+  gold: number;
   stats: {
     [key: string]: number;
   };
@@ -85,6 +86,7 @@ const initialState: IState = {
     maxHealth: 10,
     mana: 0,
     maxMana: 0,
+    gold: 100,
     stats: {
       strength: 10,
       dexterity: 10,

@@ -27,8 +27,6 @@ const Index = () => {
         <p className={baseStyles["description"]}>
           This is a game that uses the latest Assistant API from OpenAI to
           provide an AI Game Master that will guide you through your adventure.
-          The game is based on the popular tabletop RPG Dungeons and Dragons.
-          The game is currently in development and will be released soon.
         </p>
       </div>
     </div>

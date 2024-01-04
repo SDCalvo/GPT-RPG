@@ -17,6 +17,26 @@ const Ui = () => {
     </ul>
   );
 
+  const getHealthColor = (currentHealth: number, maxHealth: number) => {
+    const ratio = currentHealth / maxHealth;
+    if (ratio > 0.5) return "green";
+    if (ratio > 0.1) return "yellow";
+    return "red";
+  };
+
+  const renderHealth = (currentHealth: number, maxHealth: number) => {
+    const healthColor = getHealthColor(currentHealth, maxHealth);
+    return (
+      <p className={styles.text}>
+        <strong>Health:</strong>
+        <span style={{ color: healthColor }}>
+          {" "}
+          {currentHealth}/{maxHealth}
+        </span>
+      </p>
+    );
+  };
+
   return (
     <div className={styles.uiContainer}>
       <section className={styles.section}>
@@ -35,11 +55,13 @@ const Ui = () => {
           <strong>Experience:</strong> {state.player.experience}
         </p>
         <p className={styles.text}>
-          <strong>Health:</strong> {state.player.health}/
-          {state.player.maxHealth}
+          {renderHealth(state.player.health, state.player.maxHealth)}
         </p>
         <p className={styles.text}>
           <strong>Mana:</strong> {state.player.mana}/{state.player.maxMana}
+        </p>
+        <p className={styles.text}>
+          <strong>Gold:</strong> {state.player.gold}
         </p>
         {renderInventory(state.player.inventory)}
         <div>
@@ -62,11 +84,15 @@ const Ui = () => {
               <li key={index}>
                 <h3>{member.name}</h3>
                 <p className={styles.text}>
+                  <strong>Class:</strong> {member.class}
+                </p>
+                <p className={styles.text}>
                   <strong>Health:</strong> {member.health}/{member.maxHealth}
                 </p>
                 <p className={styles.text}>
                   <strong>Mana:</strong> {member.mana}/{member.maxMana}
                 </p>
+
                 {renderInventory(member.inventory)}
               </li>
             ))}

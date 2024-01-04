@@ -16,6 +16,7 @@ export interface IGMResponse {
     enemiesUpdate: null | { type: "UPDATE_CURRENT_ENEMIES"; payload: IEnemy[] };
     campaignUpdate: null | { type: "UPDATE_CAMPAIGN"; payload: ICampaign };
     playerSetName: null | { type: "SET_PLAYER_NAME"; payload: string };
+    playerSetGold: null | { type: "SET_PLAYER_GOLD"; payload: number };
     playerSetHealth: null | { type: "SET_PLAYER_HEALTH"; payload: number };
     playerSetMaxHealth: null | {
       type: "SET_PLAYER_MAX_HEALTH";
@@ -81,6 +82,7 @@ export type Action =
   | { type: "UPDATE_CURRENT_ENEMIES"; payload: IEnemy[] }
   | { type: "UPDATE_CAMPAIGN"; payload: ICampaign }
   | { type: "SET_PLAYER_NAME"; payload: string }
+  | { type: "SET_PLAYER_GOLD"; payload: number }
   | { type: "SET_PLAYER_HEALTH"; payload: number }
   | { type: "SET_PLAYER_MAX_HEALTH"; payload: number }
   | { type: "SET_PLAYER_MANA"; payload: number }
@@ -139,6 +141,12 @@ export const reducer = (state: IState, action: Action): IState => {
       return {
         ...state,
         player: { ...state.player, name: action.payload },
+      };
+    }
+    case "SET_PLAYER_GOLD": {
+      return {
+        ...state,
+        player: { ...state.player, gold: action.payload },
       };
     }
     case "SET_PLAYER_HEALTH": {

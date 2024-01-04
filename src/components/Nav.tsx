@@ -18,7 +18,7 @@ const Nav = () => {
 
         {router.pathname !== "/about" && (
           <li className={baseStyles.navItem}>
-            <Link href="/about">
+            <Link href="/about" className={baseStyles.navLinkContainer}>
               <p className={baseStyles.navLink}>About</p>
             </Link>
           </li>

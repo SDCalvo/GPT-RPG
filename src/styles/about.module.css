@@ -7,9 +7,27 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    background: black;
+    background-image: url('/background5.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     font-family: 'Open Sans', sans-serif;
     height: 100vh;
+  }
+
+  .sub-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.7);
+    padding: 2rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    border: 4px solid #000000;
   }
   
   .title {
